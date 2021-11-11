@@ -1,52 +1,53 @@
 package org.darmokhval.second_pack_of_tasks;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class TwoClosestPoints {
 
     public static void main(String[] args) {
-        PointsInThreeCircles.Point point = new PointsInThreeCircles.Point();
-        Scanner scan = new Scanner(System.in);
 
-        System.out.println("Enter amount of the points: ");
-        int row = scan.nextInt();
-        int columns = 2;
-        double[][] arrayPoints = new double[row][columns];
-        int arrayLen = arrayPoints.length;
+        double[][] arrayOfPoints = {
+                {0, 0},
+                {5, 5},
+                {17, 17},
+                {25, 25},
+                {40, 40},
+                {60, 60},
+                {70, 70},
+                {105, 105},
+                {140, 140},
+                {200, 200}
+        };
 
-        System.out.println("Enter coordinates for points: ");
-        for(int i = 0; i < row; i++) {
-            for(int j = 0; j < columns; j++) {
-                arrayPoints[i][j] = scan.nextDouble();
-            }
+        Point[] points = new Point[10];
+
+        for (int i = 0; i < 9; i++) {
+            points[i] = new Point(arrayOfPoints[i][0], arrayOfPoints[i][1]);
         }
+        double min = Double.POSITIVE_INFINITY;
+        int firstClosestPoint = -1;
+        int secondClosestPoint = -1;
 
-        double minDistance = Double.POSITIVE_INFINITY;
-
-        int indexFirstClosestPoint = 0;
-        int indexSecondClosestPoint = 0;
-
-        for(int i = 0; i < arrayLen; i++) {
-            for(int j = 0; j < arrayLen; j++) {
-                if (arrayPoints[j] == arrayPoints[i]) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (points[i] == points[j]) {
                     continue;
                 }
-                else {
-                    double tempDist = point.Distance(arrayPoints[i][0], arrayPoints[i][1], arrayPoints[j][0], arrayPoints[j][1]);
-                    if (tempDist <= minDistance) {
-                        minDistance = tempDist;
-                        indexFirstClosestPoint = i;
-                        indexSecondClosestPoint = j;
-                    }
+                if (points[i].distance(points[j]) < min) {
+                    min = points[i].distance(points[j]);
+                    firstClosestPoint = i;
+                    secondClosestPoint = j;
                 }
             }
         }
+        System.out.println("First point: " + arrayOfPoints[firstClosestPoint][0] + ", "
+                + arrayOfPoints[firstClosestPoint][1]);
+        System.out.println("Second point: "  + arrayOfPoints[secondClosestPoint][0] + ", "
+                + arrayOfPoints[secondClosestPoint][1]);
 
-        String firstClosestPoint = Arrays.toString(arrayPoints[indexFirstClosestPoint]);
-        String secondClosestPoint = Arrays.toString(arrayPoints[indexSecondClosestPoint]);
-
-        System.out.println("Two closes points are: " + firstClosestPoint + " and " + secondClosestPoint);
+        System.out.println(points[firstClosestPoint]);
+        System.out.println(min);
+        System.out.println(Arrays.deepToString(arrayOfPoints));
 
     }
 }
